@@ -1,0 +1,130 @@
+form {
+    padding: 0 10%;
+}
+
+hr {
+    clear: both;
+    margin: 5% 0;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-control::placeholder {
+    font-weight: lighter;
+}
+
+.form-control:focus::placeholder {
+    color: #ddd;
+}
+
+.form-control:focus {
+    background-color: #fff;
+    border-color: #714eda;
+    outline: 0;
+    box-shadow: none;   
+}
+
+button[type="submit"] {
+    border-color: #714eda;
+    color: #714eda;
+    padding: 10px 39px;
+    border-radius: 30px;
+    background: #fff;
+    text-transform: uppercase;
+    font-weight: lighter;
+    transition: .1s ease-in-out;
+}
+button[type="submit"]:hover {
+    border-color: #714eda;
+    background: #714eda;
+    color: #fff;
+}
+
+.table {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.table thead th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table-internal {
+    width: 100%;
+}
+
+.table.table-striped .table-internal tr {
+    background: none;
+}
+
+.table.table-striped .table-internal tr td {
+    border: none;
+}
+
+.table.table-striped .table-internal tr td p {
+    margin: 0;
+    color: #714eda;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.table.table-striped .table-internal tr td span {
+    margin: 0;
+    color: #333;
+    font-size: 12px;
+}
+
+.table-internal tr > :nth-child(2) {
+    vertical-align: middle;
+    text-align: right;
+}
+
+.btn-primary {
+    background: #714eda;
+    border-color: #714eda;
+}
+
+.btn-primary:hover {
+    background: #603ad4;
+    border-color: #603ad4;
+}
+
+.table.table-striped {
+    -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 2s; /* Firefox < 16 */
+    -ms-animation: fadein 2s; /* Internet Explorer */
+    -o-animation: fadein 2s; /* Opera < 12.1 */
+    animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

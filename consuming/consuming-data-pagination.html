@@ -1,0 +1,76 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="https://flaviusmatis.github.io/simplePagination.js/jquery.simplePagination.js"></script>
+<link href="https://flaviusmatis.github.io/simplePagination.js/simplePagination.css" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css" />
+
+<script id="post-template" type="text/x-handlebars-template">
+	<div class="score-structural score-column2-wideright search-listings post">
+	<div class="score-right">
+		<p style="z-index: 1;"><strong>Id:</strong> {{ userId }} </p>
+		<p style="z-index: 1;"><strong>Id:</strong> {{ id }} </p>
+		<p style="z-index: 1;"><strong>Body:</strong> {{ body }} </p>
+		<p style="z-index: 1;"><strong>Title:</strong> {{ title }} </p>
+	</div>
+	</div>
+</script>
+
+<script>
+
+	$(function() {
+		function loadPosts(posts) {
+			$('#posts').empty();
+			
+			posts.each(function() {
+
+			var source = $("#post-template").html();
+			var template = Handlebars.compile(source);
+			var context = {
+				userId: this.userId,
+				id: this.id,
+				body: this.body,
+				title: this.title,
+			};
+			
+			var html = template(context);
+			$('#posts').append(html);
+			});
+		}
+		$.ajax({
+			dataType: 'json',
+			url: "https://jsonplaceholder.typicode.com/posts/",
+			success: function(response_json) {
+				
+				data = $(response_json);
+				dataCount = data.length;
+
+				loadPosts(data);
+				var items = $(".score-right");
+				items.slice(4).hide();
+
+				$("#light-pagination").pagination({
+					items: 100,
+					itemsOnPage: 4,
+					cssStyle: "light-theme",
+
+					onPageClick: function(pageNumber) {
+						var showFrom = 4 * (pageNumber - 1);
+						var showTo = showFrom + 4;
+						items.hide().slice(showFrom, showTo).show();
+					}
+				});
+			}
+		});
+	});
+
+</script>
+
+</head>
+<body>
+	<a href="index.html">Voltar</a>
+	<div id="light-pagination" class="pagination light-theme simple-pagination"></div>
+	<div id="posts"></div>
+</body>
+</html>
