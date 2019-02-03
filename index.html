@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Segunda Etapa - Entrevista Zeropay</title>
+  </head>
+  <body>
+    
+    <div id="app"></div>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js" crossorigin /></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/react-maskedinput@4.0.1/umd/react-maskedinput.min.js"></script>    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script type="text/babel">
+
+      'use strict';
+
+      var Button = ReactBootstrap.Button,
+          Col = ReactBootstrap.Col,
+          Table = ReactBootstrap.Table,
+          MaskedInput = window.MaskedInput,
+          MaskedFormControl = window.MaskedInput,
+          Form = ReactBootstrap.Form;
+
+      const e = React.createElement;
+
+      function changeStep(text) {
+        this.setState({step: text})
+      }
+
+      class App extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            step: 1
+          };
+          changeStep = changeStep.bind(this);
+        }
+
+        render() {
+          return (
+            <div>
+              <Button className="float-right my-2" href="consuming/index.html" variant="secondary">Exemplo consumo de dados</Button>     
+              <hr />
+              { this.state.step == 1 ? ( <CotationForm /> ) : ( <CotationTable /> ) }
+            </div>
+          );
+        }
+      } // End App Component
+
+      class CotationForm extends React.Component {
+        constructor(...args) {
+          super(...args);
+
+          this.state = { 
+            validated: false,
+          };
+        }
+
+        handleSubmit(event) {
+          const form = event.currentTarget;
+
+          if ( form.checkValidity() === false ) {
+            $('.form-control:invalid')[0].focus(); // Select first input invalid
+            event.preventDefault();
+            event.stopPropagation();
+          } else {
+            changeStep(2);
+          }
+          this.setState( { validated: true } );
+        }
+
+        render() {  
+          const { validated } = this.state;
+
+          return (
+            <Form noValidate validated={validated} onSubmit={e => this.handleSubmit(e)} className={'text-center'}>
+
+              <h2>Condutor</h2>
+
+              <Form.Group controlId="validationCustom01">
+                <Form.Label>Nome Completo</Form.Label>
+                <Form.Control required type="text" placeholder="Insira o nome" defaultValue="" />
+              </Form.Group>
+              
+              <Form.Row>
+                <Form.Group as={Col} md="6" controlId="validationCustom01">
+                    <Form.Label htmlFor='cpf'>CPF</Form.Label>
+                  <MaskedFormControl required className="form-control" type='text' id='cpf' mask='111.111.111-11' placeholder="Insira seu CPF" />
+                </Form.Group>
+                <Form.Group as={Col} md="6" controlId="validationCustom02">
+                  <Form.Label htmlFor='phoneNumber'>Telefone</Form.Label>
+                  <MaskedFormControl required className="form-control" type='text' id='phoneNumber' mask='111-11111-1111' placeholder="Insira seu telefone" />
+                </Form.Group>
+              </Form.Row>
+
+              <br /><br />
+              <h2>Veículo</h2>
+
+              <Form.Row>
+                  <Form.Group as={Col} md="6" controlId="exampleForm.ControlSelect1">
+                    <Form.Label>Marca</Form.Label>
+                    <Form.Control as="select" required>
+                      <option value="">Selecione a marca</option>
+                      <option value="gm">Chevrolet (GM)</option>
+                      <option value="fiat">Fiat</option>
+                      <option value="ford">Ford</option>
+                      <option value="honda">Honda</option>
+                      <option value="hyndai">Hyndai</option>
+                      <option value="peugeot">Peugeot</option>
+                      <option value="renault">Renault</option>
+                      <option value="toyota">Toyota</option>
+                      <option value="volkswagen">Volkswagen</option>
+                    </Form.Control>
+                  </Form.Group>
+
+                  <Form.Group as={Col} md="6" controlId="exampleForm.ControlSelect1">
+                    <Form.Label>Modelo</Form.Label>
+                    <Form.Control as="select" required>
+                      <option value="">Selecione o modelo</option>
+                      <option value="palio1">Palio 1.0 Fire</option>
+                      <option value="palio2">Palio 1.0 Fire</option>
+                      <option value="bravo1">Bravo Blackmotion 1.8</option>
+                      <option value="bravo2">Bravo Blackmotion 1.8</option>
+                      <option value="bravo3">Bravo Blackmotion 1.8</option>
+                      <option value="bravo4">Bravo Blackmotion 1.8</option>
+                      <option value="palio3">Palio 1.0 Fire</option>
+                      <option value="palio4">Palio 1.0 Fire</option>
+                      <option value="fiat2">Fiat Uno 1.0 Fire</option>
+                      <option value="fiat3">Fiat Uno 1.0 Fire</option>
+                      <option value="fiat4">Fiat Uno 1.0 Fire</option>
+                      <option value="fiat5">Fiat Uno 1.0 Fire</option>
+                    </Form.Control>
+                  </Form.Group>
+              </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col} md="4" controlId="validationCustom01">
+                  <Form.Label htmlFor='plate'>Placa</Form.Label>
+                  <MaskedInput required id='plate' className="form-control" mask="WWW-1111" placeholder="Digite a placa" size="8"
+                    formatCharacters={{
+                      'W': {
+                        validate(char) { return /\w/.test(char ) },
+                        transform(char) { return char.toUpperCase() }
+                      }
+                    }}
+                  />
+                </Form.Group>
+                <Form.Group as={Col} md="4" controlId="validationCustom01">
+                  <Form.Label htmlFor='year-manufacture'>Ano de Fabricação</Form.Label>
+                  <MaskedFormControl required className="form-control" type='text' id='year-manufacture' mask='1111' placeholder="Digite o ano" />
+                </Form.Group>
+                <Form.Group as={Col} md="4" controlId="validationCustom02">
+                  <Form.Label htmlFor='year-model'>Ano do Modelo</Form.Label>
+                  <MaskedFormControl required className="form-control" type='text' id='year-model' mask='1111' placeholder="Digite o ano" /> 
+                </Form.Group>
+              </Form.Row>
+              <br />
+              <Button type="submit">Iniciar cotação</Button>
+            </Form>
+          );
+        }
+      }// End CotationForm
+
+      class CotationTable extends React.Component {
+
+        componentDidMount() {
+          $('.table-striped')[0].classList.add('move');
+        }
+
+        render() {
+          return (
+            <div>
+              <Button onClick={() => changeStep(1)}>Voltar</Button>
+              
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>
+                      <img src="img/logo-porto-seguro.png" />
+                    </th>
+                    <th>
+                      <img src="img/logo-sulamerica.png" />
+                    </th>
+                    <th>
+                      <img src="img/logo-mapfre.png" />
+                    </th>
+                    <th>
+                      <img src="img/logo-allianz.png" />
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table className="table-internal">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <p>R$ 1.079,00</p>
+                              <span>Plano 1</span>  
+                            </td>
+                            <td>
+                              <Button>Comprar</Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
+          );
+        }
+      }// End CotationTable
+
+      const domContainer = document.querySelector('#app');
+      ReactDOM.render(e(App), domContainer);
+    </script>
+  </body>
+</html>
